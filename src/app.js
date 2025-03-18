@@ -1,12 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const umzug = require("./config/umzug");
-const UserController = require("./controllers/userController");
-const { updateBalanceValidator } = require("./middlewares/validators");
+const routes = require("./routes");
+const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
 app.use(express.json());
-app.post("/api/balance", updateBalanceValidator, UserController.updateBalance);
+app.use("/api", routes);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
@@ -24,4 +26,5 @@ async function startServer() {
   }
 }
 
+// Start the server
 startServer();
